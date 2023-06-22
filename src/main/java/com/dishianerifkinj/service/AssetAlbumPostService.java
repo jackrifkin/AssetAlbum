@@ -24,7 +24,12 @@ public class AssetAlbumPostService {
             CallableStatement stmt = conn.prepareCall("CALL add_hair(?,?,?,?,?,?,?)");
             stmt.setString(1, hair.getArtistUsername());
             stmt.setString(2, hair.getFileName());
-            stmt.setBlob(3, FileUtil.multiPartFileToBlob(hair.getFile()));
+            // if statement for CLI, would have been single line if upload file functionality was used in front-end
+            if (hair.getFile() != null) {
+                stmt.setBlob(3, FileUtil.multiPartFileToBlob(hair.getFile()));
+            } else {
+                stmt.setNull(3, Types.BLOB);
+            }
             stmt.setString(4, hair.getColor().toString());
             stmt.setString(5, hair.getHairLength().toString());
             stmt.setString(6, hair.getHairType().toString());
@@ -50,7 +55,12 @@ public class AssetAlbumPostService {
             CallableStatement stmt = conn.prepareCall("CALL add_head(?,?,?,?,?,?,?,?)");
             stmt.setString(1, head.getArtistUsername());
             stmt.setString(2, head.getFileName());
-            stmt.setBlob(3, FileUtil.multiPartFileToBlob(head.getFile()));
+            // if statement for CLI, would have been single line if upload file functionality was used in front-end
+            if (head.getFile() != null) {
+                stmt.setBlob(3, FileUtil.multiPartFileToBlob(head.getFile()));
+            } else {
+                stmt.setNull(3, Types.BLOB);
+            }
             stmt.setString(4, head.getSkinColor().toString());
             stmt.setBoolean(5, head.isHasTattoos());
             stmt.setBoolean(6, head.isHasGlasses());
@@ -77,7 +87,12 @@ public class AssetAlbumPostService {
             CallableStatement stmt = conn.prepareCall("CALL add_torso(?,?,?,?,?,?,?,?)");
             stmt.setString(1, torso.getArtistUsername());
             stmt.setString(2, torso.getFileName());
-            stmt.setBlob(3, FileUtil.multiPartFileToBlob(torso.getFile()));
+            // if statement for CLI, would have been single line if upload file functionality was used in front-end
+            if (torso.getFile() != null) {
+                stmt.setBlob(3, FileUtil.multiPartFileToBlob(torso.getFile()));
+            } else {
+                stmt.setNull(3, Types.BLOB);
+            }
             stmt.setString(4, torso.getSkinColor().toString());
             stmt.setBoolean(5, torso.isHasTattoos());
             stmt.setString(6, torso.getSex().toString());
@@ -104,7 +119,12 @@ public class AssetAlbumPostService {
             CallableStatement stmt = conn.prepareCall("CALL add_limb(?,?,?,?,?,?,?,?)");
             stmt.setString(1, limb.getArtistUsername());
             stmt.setString(2, limb.getFileName());
-            stmt.setBlob(3, FileUtil.multiPartFileToBlob(limb.getFile()));
+            // if statement for CLI, would have been single line if upload file functionality was used in front-end
+            if (limb.getFile() != null) {
+                stmt.setBlob(3, FileUtil.multiPartFileToBlob(limb.getFile()));
+            } else {
+                stmt.setNull(3, Types.BLOB);
+            }
             stmt.setString(4, limb.getSkinColor().toString());
             stmt.setBoolean(5, limb.isHasTattoos());
             stmt.setBoolean(6, limb.isLeft());

@@ -77,8 +77,7 @@ public class AssetAlbumGetService {
         }
     }
 
-    // I CHANGED THIS TO PUBLIC :(((((((
-        public List<Integer> getHairAssetIds(AssetRequest assetRequest) {
+    private List<Integer> getHairAssetIds(AssetRequest assetRequest) {
         String query = "SELECT asset_id FROM hair NATURAL JOIN asset NATURAL JOIN asset_file";
 
         int clauseCount = 0;
