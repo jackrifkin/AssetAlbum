@@ -1,7 +1,10 @@
 package com.dishianerifkinj;
 
+import com.dishianerifkinj.controller.AssetAlbumCommandLineController;
+
 public class CommandLineApplication {
     public static void main(String[] args) {
-        System.out.println("testing");
+        var controller = new AssetAlbumCommandLineController();
+        controller.run();
     }
 }

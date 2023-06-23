@@ -14,7 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 @RestController
-public class AssetAlbumController {
+public class AssetAlbumEndpointController {
     private final AssetAlbumPostService assetAlbumPostService = new AssetAlbumPostService();
     private final AssetAlbumGetService assetAlbumGetService = new AssetAlbumGetService();
     private final AssetAlbumPutService assetAlbumPutService = new AssetAlbumPutService();

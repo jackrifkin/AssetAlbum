@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.sql.*;
-import java.util.Properties;
 
 @Service
 public class AssetAlbumPutService {
@@ -68,9 +67,9 @@ public class AssetAlbumPutService {
                 updateQuery += WHERE + " asset_id = " + assetId;
 
                 Statement stmt = conn.createStatement();
-                return stmt.executeUpdate(updateQuery);
+                return stmt.executeUpdate(updateQuery) + updateArtistFiltersQuery(assetId, assetRequest);
             } else {
-                return 0;
+                return updateArtistFiltersQuery(assetId, assetRequest);
             }
         } catch (SQLException e) {
             throw new RuntimeException("Error while updating filters", e);
@@ -79,18 +78,28 @@ public class AssetAlbumPutService {
 
     private String updateAssetFiltersQuery(AssetRequest assetRequest) {
         String query = "";
-        int clauseCount = 0;
 
-        if (assetRequest.getArtistUsername() != null) {
-            query += " owner_username = " + assetRequest.getArtistUsername();
-            clauseCount++;
-        }
         if (assetRequest.getFileName() != null) {
-            query += (clauseCount > 0) ? "," : "";
-            query += " file_name = " + assetRequest.getFileName();
+            query += " file_name = '" + assetRequest.getFileName() + "'";
         }
 
         return query;
+    }
+
+    private Integer updateArtistFiltersQuery(Integer assetId, AssetRequest assetRequest) {
+        try {
+            if (assetRequest.getArtistUsername() != null) {
+                String updateQuery = "UPDATE asset SET username = '" + assetRequest.getArtistUsername() + "'";
+                updateQuery += WHERE + " username = (SELECT username FROM asset WHERE asset_id = " + assetId + ")";
+
+                Statement stmt = conn.createStatement();
+                return stmt.executeUpdate(updateQuery);
+            } else {
+                return 0;
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Error while updating filters", e);
+        }
     }
 
     private Integer updateBodyPartFilters(Integer assetId, AssetRequest assetRequest) {
@@ -109,12 +118,12 @@ public class AssetAlbumPutService {
         int clauseCount = 0;
 
         if (assetRequest.getSkinColor() != null) {
-            query += " skin_color = " + assetRequest.getSkinColor();
+            query += " skin_color = '" + assetRequest.getSkinColor() + "'";
             clauseCount++;
         }
         if (assetRequest.getHasTattoos() != null) {
             query += (clauseCount > 0) ? "," : "";
-            query += " has_tattoos = " + assetRequest.getHasTattoos();
+            query += " has_tattoos = '" + assetRequest.getHasTattoos() + "'";
         }
 
         return query;
@@ -136,16 +145,16 @@ public class AssetAlbumPutService {
         int clauseCount = 0;
 
         if (assetRequest.getHairColor() != null) {
-            query += " hair_color = " + assetRequest.getHairColor();
+            query += " hair_color = '" + assetRequest.getHairColor() + "'";
             clauseCount++;
         }
         if (assetRequest.getHairLength() != null) {
             query += (clauseCount > 0) ? "," : "";
-            query += " hair_length = " + assetRequest.getHairLength();
+            query += " hair_length = '" + assetRequest.getHairLength() + "'";
         }
         if (assetRequest.getHairType() != null) {
             query += (clauseCount > 0) ? "," : "";
-            query += " hair_type = " + assetRequest.getHairType();
+            query += " hair_type = '" + assetRequest.getHairType() + "'";
         }
 
         return query;
@@ -180,12 +189,12 @@ public class AssetAlbumPutService {
         int clauseCount = 0;
 
         if (assetRequest.getHeadShape() != null) {
-            query += " head_shape = " + assetRequest.getHeadShape();
+            query += " head_shape = '" + assetRequest.getHeadShape() + "'";
             clauseCount++;
         }
         if (assetRequest.getHasGlasses() != null) {
             query += (clauseCount > 0) ? "," : "";
-            query += " has_glasses = " + assetRequest.getHasGlasses();
+            query += " has_glasses = '" + assetRequest.getHasGlasses() + "'";
         }
 
         return query;
@@ -207,12 +216,12 @@ public class AssetAlbumPutService {
         int clauseCount = 0;
 
         if (assetRequest.getSex() != null) {
-            query += " sex = " + assetRequest.getSex();
+            query += " sex = '" + assetRequest.getSex() + "'";
             clauseCount++;
         }
         if (assetRequest.getTorsoShape() != null) {
             query += (clauseCount > 0) ? "," : "";
-            query += " torso_shape = " + assetRequest.getTorsoShape();
+            query += " torso_shape = '" + assetRequest.getTorsoShape() + "'";
         }
 
         return query;
@@ -234,12 +243,12 @@ public class AssetAlbumPutService {
         int clauseCount = 0;
 
         if (assetRequest.getIsLeft() != null) {
-            query += " is_left = " + assetRequest.getIsLeft();
+            query += " is_left = '" + assetRequest.getIsLeft() + "'";
             clauseCount++;
         }
         if (assetRequest.getIsArm() != null) {
             query += (clauseCount > 0) ? "," : "";
-            query += " is_arm = " + assetRequest.getIsArm();
+            query += " is_arm = '" + assetRequest.getIsArm() + "'";
         }
 
         return query;
